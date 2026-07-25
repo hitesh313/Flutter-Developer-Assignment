@@ -74,9 +74,10 @@ class _StepsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = paletteOf(context);
     return Container(
       key: const ValueKey('steps'),
-      color: AppColors.white,
+      color: palette.surface,
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -96,7 +97,7 @@ class _StepsCard extends StatelessWidget {
                     child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.aiGreen),
                   )
                 else
-                  const Icon(Icons.circle_outlined, size: 20, color: AppColors.divider),
+                  Icon(Icons.circle_outlined, size: 20, color: palette.divider),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
@@ -104,7 +105,7 @@ class _StepsCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
-                      color: done || active ? AppColors.black : AppColors.textSecondary,
+                      color: done || active ? palette.textPrimary : palette.textSecondary,
                     ),
                   ),
                 ),
@@ -123,10 +124,11 @@ class _HandoffCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = paletteOf(context);
     return Container(
       key: const ValueKey('handoff'),
       height: 180,
-      color: AppColors.white,
+      color: palette.surface,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -137,7 +139,7 @@ class _HandoffCard extends StatelessWidget {
             child: Icon(app.icon, color: Colors.white, size: 26),
           ),
           const SizedBox(height: AppSpacing.md),
-          Text('Opening ${app.label}\u2026', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.black)),
+          Text('Opening ${app.label}\u2026', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: palette.textPrimary)),
         ],
       ),
     );

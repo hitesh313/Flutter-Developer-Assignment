@@ -15,6 +15,10 @@ class QuickShareApp extends StatelessWidget {
       title: 'Oriflame Smart Post',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      // Follows the device's light/dark setting automatically and stays
+      // in sync if the user flips it while the app is open.
+      themeMode: ThemeMode.system,
       home: const BuildingSmartPostsScreen(),
     );
   }

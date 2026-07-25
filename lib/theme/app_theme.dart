@@ -29,6 +29,58 @@ class AppColors {
   static const Color darkTextSecondary = Color(0xFF8C8C93);
 }
 
+/// Neutral chrome colors that flip between light and dark automatically
+/// with the device's system setting. Brand accents (green, pink, social
+/// icon colors) and anything drawn on top of the post photo stay fixed
+/// in both modes — see the README for why.
+class AppPalette {
+  final Color scaffoldBg;
+  final Color surface;
+  final Color textPrimary;
+  final Color textSecondary;
+  final Color divider;
+  final Color navIconCircle;
+  final Color navIconGlyph;
+
+  const AppPalette({
+    required this.scaffoldBg,
+    required this.surface,
+    required this.textPrimary,
+    required this.textSecondary,
+    required this.divider,
+    required this.navIconCircle,
+    required this.navIconGlyph,
+  });
+
+  static const light = AppPalette(
+    scaffoldBg: Colors.white,
+    surface: Colors.white,
+    textPrimary: AppColors.black,
+    textSecondary: AppColors.textSecondary,
+    divider: AppColors.divider,
+    navIconCircle: AppColors.black,
+    navIconGlyph: Colors.white,
+  );
+
+  static const dark = AppPalette(
+    scaffoldBg: AppColors.darkBg,
+    surface: Color(0xFF1F1F22),
+    textPrimary: Colors.white,
+    textSecondary: AppColors.darkTextSecondary,
+    divider: Color(0xFF2C2C30),
+    navIconCircle: Colors.white,
+    navIconGlyph: AppColors.darkBg,
+  );
+}
+
+/// Reads the palette matching the current system brightness. `MaterialApp`
+/// is set to `themeMode: ThemeMode.system`, so `Theme.of(context)` already
+/// reflects the device's live light/dark setting — this just maps that to
+/// our own token set.
+AppPalette paletteOf(BuildContext context) {
+  return Theme.of(context).brightness == Brightness.dark ? AppPalette.dark : AppPalette.light;
+}
+
 class AppSpacing {
   AppSpacing._();
   static const double xs = 4;
@@ -125,10 +177,25 @@ class AppTheme {
   static ThemeData get light {
     return ThemeData(
       useMaterial3: true,
+      brightness: Brightness.light,
       scaffoldBackgroundColor: AppColors.white,
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.aiGreen,
         primary: AppColors.aiGreen,
+      ),
+      fontFamily: 'Roboto',
+    );
+  }
+
+  static ThemeData get dark {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: AppColors.darkBg,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: AppColors.aiGreen,
+        primary: AppColors.aiGreen,
+        brightness: Brightness.dark,
       ),
       fontFamily: 'Roboto',
     );

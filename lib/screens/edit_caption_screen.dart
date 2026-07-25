@@ -38,13 +38,14 @@ class _EditCaptionScreenState extends State<EditCaptionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = paletteOf(context);
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: palette.scaffoldBg,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: palette.surface,
         elevation: 0,
-        leading: IconButton(icon: const Icon(Icons.close, color: AppColors.black), onPressed: () => Navigator.of(context).pop()),
-        title: const Text('Edit Caption', style: TextStyle(color: AppColors.black, fontSize: 16, fontWeight: FontWeight.w700)),
+        leading: IconButton(icon: Icon(Icons.close, color: palette.textPrimary), onPressed: () => Navigator.of(context).pop()),
+        title: Text('Edit Caption', style: TextStyle(color: palette.textPrimary, fontSize: 16, fontWeight: FontWeight.w700)),
         centerTitle: true,
         actions: [
           Padding(
@@ -53,9 +54,9 @@ class _EditCaptionScreenState extends State<EditCaptionScreen> {
               child: TextButton(
                 onPressed: _changed ? () => Navigator.of(context).pop(_controller.text) : null,
                 style: TextButton.styleFrom(
-                  backgroundColor: _changed ? AppColors.aiGreen : AppColors.divider,
+                  backgroundColor: _changed ? AppColors.aiGreen : palette.divider,
                   foregroundColor: Colors.white,
-                  disabledForegroundColor: AppColors.textSecondary,
+                  disabledForegroundColor: palette.textSecondary,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                 ),
@@ -73,7 +74,8 @@ class _EditCaptionScreenState extends State<EditCaptionScreen> {
           maxLines: null,
           expands: true,
           textAlignVertical: TextAlignVertical.top,
-          style: const TextStyle(fontSize: 14, color: AppColors.black, height: 1.4),
+          style: TextStyle(fontSize: 14, color: palette.textPrimary, height: 1.4),
+          cursorColor: AppColors.aiGreen,
           decoration: const InputDecoration(border: InputBorder.none, isCollapsed: true),
         ),
       ),

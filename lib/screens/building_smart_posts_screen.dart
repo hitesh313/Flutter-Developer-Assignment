@@ -2,13 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../data/demo_data.dart';
 import '../theme/app_theme.dart';
-import 'smart_post_screen.dart';
-
+import 'root_shell.dart';
 
 /// The splash/build screen shown while the AI assembles the Smart Posts.
-/// The Figma file shows this in both a light and a dark variant — a
-/// small toggle in the corner lets you preview both, which felt like a
-/// nice touch to demonstrate rather than just picking one.
+/// Automatically follows the device's light/dark setting via
+/// `MaterialApp(themeMode: ThemeMode.system)` — no manual switch needed;
+/// this is exactly the frame the Figma file designs for both modes.
 class BuildingSmartPostsScreen extends StatefulWidget {
   const BuildingSmartPostsScreen({super.key});
 
@@ -17,7 +16,6 @@ class BuildingSmartPostsScreen extends StatefulWidget {
 }
 
 class _BuildingSmartPostsScreenState extends State<BuildingSmartPostsScreen> {
-  bool _isDark = false;
   int _completedSteps = 0;
   bool _allDone = false;
   Timer? _timer;
@@ -38,7 +36,7 @@ class _BuildingSmartPostsScreenState extends State<BuildingSmartPostsScreen> {
         Future.delayed(const Duration(milliseconds: 700), () {
           if (mounted) {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => const SmartPostScreen()),
+              MaterialPageRoute(builder: (_) => const RootShell()),
             );
           }
         });
@@ -54,29 +52,20 @@ class _BuildingSmartPostsScreenState extends State<BuildingSmartPostsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bg = _isDark ? AppColors.darkBg : AppColors.white;
-    final titleColor = _isDark ? Colors.white : AppColors.black;
-    final subColor = _isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final palette = paletteOf(context);
 
     return Scaffold(
-      backgroundColor: bg,
+      backgroundColor: palette.scaffoldBg,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  onPressed: () => setState(() => _isDark = !_isDark),
-                  icon: Icon(_isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined, color: subColor),
-                ),
-              ),
-              const Spacer(),
+              const Spacer(flex: 2),
               Text(
                 'Building personalised\nSmart Posts for you!',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: titleColor, height: 1.3),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: palette.textPrimary, height: 1.3),
               ),
               const SizedBox(height: AppSpacing.xl),
               ...List.generate(DemoData.buildingSteps.length, (index) {
@@ -86,7 +75,7 @@ class _BuildingSmartPostsScreenState extends State<BuildingSmartPostsScreen> {
                   padding: const EdgeInsets.only(bottom: AppSpacing.md),
                   child: Row(
                     children: [
-                      _StepIcon(done: done, inProgress: inProgress, subColor: subColor),
+                      _StepIcon(done: done, inProgress: inProgress, palette: palette),
                       const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: Text(
@@ -94,7 +83,7 @@ class _BuildingSmartPostsScreenState extends State<BuildingSmartPostsScreen> {
                           style: TextStyle(
                             fontSize: 13.5,
                             fontWeight: FontWeight.w500,
-                            color: done || inProgress ? titleColor : subColor,
+                            color: done || inProgress ? palette.textPrimary : palette.textSecondary,
                           ),
                         ),
                       ),
@@ -106,9 +95,9 @@ class _BuildingSmartPostsScreenState extends State<BuildingSmartPostsScreen> {
               AnimatedOpacity(
                 duration: const Duration(milliseconds: 300),
                 opacity: _allDone ? 1 : 0,
-                child: Text('All set! Get ready to share...', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: subColor)),
+                child: Text('All set! Get ready to share...', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: palette.textSecondary)),
               ),
-              const Spacer(flex: 2),
+              const Spacer(flex: 3),
             ],
           ),
         ),
@@ -120,9 +109,9 @@ class _BuildingSmartPostsScreenState extends State<BuildingSmartPostsScreen> {
 class _StepIcon extends StatelessWidget {
   final bool done;
   final bool inProgress;
-  final Color subColor;
+  final AppPalette palette;
 
-  const _StepIcon({required this.done, required this.inProgress, required this.subColor});
+  const _StepIcon({required this.done, required this.inProgress, required this.palette});
 
   @override
   Widget build(BuildContext context) {
@@ -136,6 +125,6 @@ class _StepIcon extends StatelessWidget {
         child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.aiGreen),
       );
     }
-    return Icon(Icons.circle_outlined, size: 20, color: subColor.withValues(alpha: 0.5));
+    return Icon(Icons.circle_outlined, size: 20, color: palette.textSecondary.withValues(alpha: 0.5));
   }
 }

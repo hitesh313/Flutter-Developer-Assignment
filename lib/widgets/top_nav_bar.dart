@@ -2,12 +2,22 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 class TopNavBar extends StatelessWidget {
-  const TopNavBar({super.key});
+  final int activeIndex;
+  final List<String> tabNames;
+  final ValueChanged<int> onTabTap;
+
+  const TopNavBar({
+    super.key,
+    required this.activeIndex,
+    required this.tabNames,
+    required this.onTabTap,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final palette = paletteOf(context);
     return Container(
-      color: AppColors.white,
+      color: palette.surface,
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       child: Column(
         children: [
@@ -15,35 +25,32 @@ class TopNavBar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _NavIconButton(
-                icon: Icons.auto_awesome,
-                label: 'Your Assistant',
-                badge: 'AI',
-              ),
+              _NavIconButton(icon: Icons.auto_awesome, label: 'Your Assistant', badge: 'AI', palette: palette),
               Column(
-                children: const [
-                  Text('ORIFLAME', style: AppText.brand),
-                  SizedBox(height: 2),
-                  Text('S W E D E N', style: AppText.brandSub),
+                children: [
+                  Text('ORIFLAME', style: AppText.brand.copyWith(color: palette.textPrimary)),
+                  const SizedBox(height: 2),
+                  Text('S W E D E N', style: AppText.brandSub.copyWith(color: palette.textSecondary)),
                 ],
               ),
-              const _NavIconButton(icon: Icons.camera_alt_outlined, label: 'Camera'),
+              _NavIconButton(icon: Icons.camera_alt_outlined, label: 'Camera', palette: palette),
             ],
           ),
           const SizedBox(height: AppSpacing.sm),
           Row(
-            children: const [
-              _TabLabel(text: 'Smart Post', active: true),
-              SizedBox(width: AppSpacing.md),
-              _TabLabel(text: 'Library'),
-              SizedBox(width: AppSpacing.md),
-              _TabLabel(text: 'Communities'),
-              SizedBox(width: AppSpacing.md),
-              _TabLabel(text: 'Share&Win'),
-            ],
+            children: List.generate(tabNames.length, (index) {
+              return Padding(
+                padding: EdgeInsets.only(right: index == tabNames.length - 1 ? 0 : AppSpacing.md),
+                child: GestureDetector(
+                  onTap: () => onTabTap(index),
+                  behavior: HitTestBehavior.opaque,
+                  child: _TabLabel(text: tabNames[index], active: index == activeIndex, palette: palette),
+                ),
+              );
+            }),
           ),
           const SizedBox(height: AppSpacing.sm),
-          const Divider(height: 1, color: AppColors.divider),
+          Divider(height: 1, color: palette.divider),
         ],
       ),
     );
@@ -54,8 +61,9 @@ class _NavIconButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final String? badge;
+  final AppPalette palette;
 
-  const _NavIconButton({required this.icon, required this.label, this.badge});
+  const _NavIconButton({required this.icon, required this.label, required this.palette, this.badge});
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +75,8 @@ class _NavIconButton extends StatelessWidget {
             Container(
               width: 34,
               height: 34,
-              decoration: const BoxDecoration(
-                color: AppColors.black,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: Colors.white, size: 17),
+              decoration: BoxDecoration(color: palette.navIconCircle, shape: BoxShape.circle),
+              child: Icon(icon, color: palette.navIconGlyph, size: 17),
             ),
             if (badge != null)
               Positioned(
@@ -82,7 +87,7 @@ class _NavIconButton extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.aiGreen,
                     borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: Colors.white, width: 1.2),
+                    border: Border.all(color: palette.surface, width: 1.2),
                   ),
                   child: Text(
                     badge!,
@@ -93,7 +98,7 @@ class _NavIconButton extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 3),
-        Text(label, style: const TextStyle(fontSize: 8.5, color: AppColors.textSecondary, fontWeight: FontWeight.w600)),
+        Text(label, style: TextStyle(fontSize: 8.5, color: palette.textSecondary, fontWeight: FontWeight.w600)),
       ],
     );
   }
@@ -102,15 +107,21 @@ class _NavIconButton extends StatelessWidget {
 class _TabLabel extends StatelessWidget {
   final String text;
   final bool active;
+  final AppPalette palette;
 
-  const _TabLabel({required this.text, this.active = false});
+  const _TabLabel({required this.text, required this.palette, this.active = false});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(text, style: active ? AppText.navTabActive : AppText.navTab),
+        Text(
+          text,
+          style: active
+              ? AppText.navTabActive
+              : AppText.navTab.copyWith(color: palette.textSecondary),
+        ),
         const SizedBox(height: 4),
         if (active)
           Container(width: 20, height: 2, decoration: BoxDecoration(color: AppColors.aiGreen, borderRadius: BorderRadius.circular(2))),

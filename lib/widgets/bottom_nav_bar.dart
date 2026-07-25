@@ -15,8 +15,9 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = paletteOf(context);
     return Container(
-      color: AppColors.white,
+      color: palette.surface,
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       child: SafeArea(
         top: false,
@@ -24,16 +25,17 @@ class BottomNavBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: List.generate(_icons.length, (index) {
             final bool active = index == _activeIndex;
+            final Color color = active ? palette.textPrimary : palette.textSecondary;
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(_icons[index], size: 24, color: active ? AppColors.black : AppColors.textSecondary),
+                Icon(_icons[index], size: 24, color: color),
                 const SizedBox(height: 4),
                 Container(
                   width: 16,
                   height: 2,
                   decoration: BoxDecoration(
-                    color: active ? AppColors.black : Colors.transparent,
+                    color: active ? palette.textPrimary : Colors.transparent,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
