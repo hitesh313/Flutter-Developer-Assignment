@@ -1,38 +1,124 @@
 import 'package:flutter/material.dart';
-import '../models/share_models.dart';
+import '../models/smart_post.dart';
+import '../theme/app_theme.dart';
 
-/// Hardcoded data for the demo — the brief explicitly recommends
-/// skipping backend/API work and demoing with static values.
 class DemoData {
   DemoData._();
 
-  static const SharePost post = SharePost(
-    authorName: 'Maya Chen',
-    authorColor: Color(0xFFFFB74D),
-    caption:
-        'Golden hour on the coastline never gets old \u2600\ufe0f Chasing '
-        'light and good company today.',
-    mediaColor: Color(0xFF6C5CE7),
-    timeAgo: '2h ago',
-  );
-
-  static const List<ShareContact> contacts = [
-    ShareContact(id: 'c1', name: 'Aarav', avatarColor: Color(0xFFFF7675), isOnline: true),
-    ShareContact(id: 'c2', name: 'Priya', avatarColor: Color(0xFF00B894), isOnline: true),
-    ShareContact(id: 'c3', name: 'Dev', avatarColor: Color(0xFF0984E3)),
-    ShareContact(id: 'c4', name: 'Isha', avatarColor: Color(0xFFFDCB6E), isOnline: true),
-    ShareContact(id: 'c5', name: 'Rohan', avatarColor: Color(0xFFA29BFE)),
-    ShareContact(id: 'c6', name: 'Neha', avatarColor: Color(0xFFFF6584)),
+  static final List<SmartPost> posts = [
+    SmartPost(
+      creatorInitial: 'A',
+      creatorAvatarColor: const Color(0xFFE8A87C),
+      communityLine: 'High-converting in Oriflame Community',
+      backgroundGradient: const [Color(0xFF8B5E3C), Color(0xFF3D2A1F)],
+      heroIcon: Icons.brush,
+      productIcon: Icons.brush,
+      productName: 'Giordani Gold Lipstick',
+      priceLabel: '\$14.99',
+      discountLabel: '30% off',
+      trending: false,
+      songTitle: 'Bad Habits',
+      songArtist: 'Ed Sheeran',
+      caption:
+          'Elevate your beauty with the Giordani Gold - Eternal Glow '
+          'Lipstick SPF 25! This luxurious creamy lipstick doesn\'t just '
+          'promise rich pigments but brings you the benefits of hyaluronic '
+          'acid and collagen-boosting peptides too. Pamper your lips with '
+          'care while enjoying a long-lasting, luminous matte colour.',
+      hashtags: '#Oriflame #GiordaniGold #LipCareGoals',
+      referralCode: 'UK-AMANDA3012',
+      referralLink: 'www.oriflame.com/giordani/amanda3012',
+    ),
+    SmartPost(
+      creatorInitial: 'A',
+      creatorAvatarColor: const Color(0xFFE8A87C),
+      communityLine: 'High-converting in Oriflame Community',
+      backgroundGradient: const [Color(0xFFE8C7C7), Color(0xFF7A4B4B)],
+      heroIcon: Icons.local_florist,
+      productIcon: Icons.local_florist,
+      productName: 'Eclat Amour',
+      priceLabel: '\$32.00',
+      discountLabel: '20% off',
+      trending: true,
+      songTitle: 'Unstoppable',
+      songArtist: 'Sia',
+      caption:
+          'Experience the elegance of Eclat Amour \u2014 a fragrance that '
+          'captures the essence of romance and sophistication. Let every '
+          'spritz wrap you in timeless charm and effortless allure.',
+      hashtags: '#EclatAmour #TimelessElegance',
+      referralCode: 'UK-AMANDA3012',
+      referralLink: 'www.oriflame.com/giordani/amanda3012',
+    ),
+    SmartPost(
+      creatorInitial: 'A',
+      creatorAvatarColor: const Color(0xFFE8A87C),
+      communityLine: 'High-converting in Oriflame Community',
+      backgroundGradient: const [Color(0xFFF4B6D2), Color(0xFF6B2C57)],
+      heroIcon: Icons.auto_awesome,
+      productIcon: Icons.auto_awesome,
+      productName: 'WonderLash Mascara',
+      priceLabel: '\$18.50',
+      discountLabel: '15% off',
+      trending: false,
+      songTitle: 'Vogue',
+      songArtist: 'Madonna',
+      caption:
+          'Unlock the power of bold, beautiful lashes! With WonderLash '
+          'Mascara, get ultimate length, volume, and definition for a '
+          'stunning, eye-catching look. One swipe is all it takes!',
+      hashtags: '#WonderLash #LashesForDays',
+      referralCode: 'UK-AMANDA3012',
+      referralLink: 'www.oriflame.com/giordani/amanda3012',
+    ),
   ];
 
-  static const List<ShareDestination> destinations = [
-    ShareDestination(id: 'whatsapp', label: 'WhatsApp', icon: Icons.chat, color: Color(0xFF25D366)),
-    ShareDestination(id: 'instagram', label: 'Instagram', icon: Icons.camera_alt, color: Color(0xFFE1306C)),
-    ShareDestination(id: 'twitter', label: 'X', icon: Icons.tag, color: Color(0xFF1A1A2E)),
-    ShareDestination(id: 'facebook', label: 'Facebook', icon: Icons.facebook, color: Color(0xFF1877F2)),
-    ShareDestination(id: 'email', label: 'Email', icon: Icons.email, color: Color(0xFF6C5CE7)),
-    ShareDestination(id: 'more', label: 'More', icon: Icons.more_horiz, color: Color(0xFF8A8A9E)),
+  /// Steps for the "Building personalised Smart Posts for you!" loader.
+  static const List<String> buildingSteps = [
+    'Preparing popular content for you',
+    'Crafting a caption to boost engagement',
+    'Adding your personal referral link and code',
+    'Finding trending songs on other social media',
   ];
 
-  static const String shareLink = 'https://quickshare.app/p/8f3a21';
+  /// Steps shown while a Quick Share is being prepared.
+  static const List<String> shareSteps = [
+    'Generating your sales link',
+    'Copying the caption to clipboard',
+    'Saving the content to your profile',
+    'Preparing the content for social media',
+  ];
+
+  static const List<QuickShareApp> quickShareApps = [
+    QuickShareApp(
+      label: 'Instagram Feed',
+      icon: Icons.camera_alt,
+      gradient: [AppColors.instagramStart, AppColors.instagramMid, AppColors.instagramEnd],
+    ),
+    QuickShareApp(
+      label: 'Instagram Story',
+      icon: Icons.add_circle,
+      gradient: [AppColors.instagramStart, AppColors.instagramMid, AppColors.instagramEnd],
+    ),
+    QuickShareApp(
+      label: 'Facebook Feed',
+      icon: Icons.facebook,
+      gradient: [AppColors.facebook, AppColors.facebook],
+    ),
+    QuickShareApp(
+      label: 'Facebook Story',
+      icon: Icons.add_box,
+      gradient: [AppColors.facebook, AppColors.facebook],
+    ),
+    QuickShareApp(
+      label: 'Messenger',
+      icon: Icons.chat_bubble,
+      gradient: [AppColors.messengerStart, AppColors.messengerEnd],
+    ),
+    QuickShareApp(
+      label: 'TikTok',
+      icon: Icons.music_note,
+      gradient: [AppColors.tiktok, AppColors.tiktok],
+    ),
+  ];
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/quick_share_screen.dart';
+import 'screens/building_smart_posts_screen.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -12,10 +12,10 @@ class QuickShareApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Quick Share',
+      title: 'Oriflame Smart Post',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
-      home: const QuickShareScreen(),
+      home: const BuildingSmartPostsScreen(),
     );
   }
 }
