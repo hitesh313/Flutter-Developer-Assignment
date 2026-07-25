@@ -56,13 +56,11 @@ class _ShareProgressDialogState extends State<ShareProgressDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.transparent,
+      elevation: 0,
       insetPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppSpacing.lg),
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: _handoff ? _HandoffCard(app: widget.app) : _StepsCard(completed: _completed),
-        ),
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: _handoff ? _HandoffCard(app: widget.app) : _StepsCard(completed: _completed),
       ),
     );
   }
@@ -77,8 +75,8 @@ class _StepsCard extends StatelessWidget {
     final palette = paletteOf(context);
     return Container(
       key: const ValueKey('steps'),
-      color: palette.surface,
       padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(color: palette.surface, borderRadius: BorderRadius.circular(AppSpacing.lg)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: List.generate(DemoData.shareSteps.length, (index) {
@@ -124,22 +122,28 @@ class _HandoffCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = paletteOf(context);
     return Container(
       key: const ValueKey('handoff'),
-      height: 180,
-      color: palette.surface,
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(gradient: LinearGradient(colors: app.gradient), shape: BoxShape.circle),
-            child: Icon(app.icon, color: Colors.white, size: 26),
+            width: 64,
+            height: 64,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: app.gradient),
+              shape: BoxShape.circle,
+              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.35), blurRadius: 18, offset: const Offset(0, 6))],
+            ),
+            child: Icon(app.icon, color: Colors.white, size: 30),
           ),
           const SizedBox(height: AppSpacing.md),
-          Text('Opening ${app.label}\u2026', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: palette.textPrimary)),
+          Text(
+            'Opening ${app.label}\u2026',
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white),
+          ),
         ],
       ),
     );

@@ -20,6 +20,7 @@ class ProductOverlayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = paletteOf(context);
     return AnimatedSlide(
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeOut,
@@ -35,10 +36,10 @@ class ProductOverlayCard extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(AppSpacing.sm),
               decoration: BoxDecoration(
-                color: AppColors.white,
+                color: palette.surface,
                 borderRadius: BorderRadius.circular(AppSpacing.md),
                 boxShadow: [
-                  BoxShadow(color: Colors.black.withValues(alpha: 0.18), blurRadius: 12, offset: const Offset(0, 4)),
+                  BoxShadow(color: Colors.black.withValues(alpha: 0.25), blurRadius: 12, offset: const Offset(0, 4)),
                 ],
               ),
               child: Row(
@@ -57,14 +58,19 @@ class ProductOverlayCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(post.productName, style: AppText.productTitle, maxLines: 1, overflow: TextOverflow.ellipsis),
+                        Text(
+                          post.productName,
+                          style: AppText.productTitle.copyWith(color: palette.textPrimary),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         const SizedBox(height: 2),
                         Row(
                           children: [
                             Flexible(
                               child: Text(
                                 post.trending ? 'Trending right now and on sale' : post.priceLabel,
-                                style: AppText.productSub,
+                                style: AppText.productSub.copyWith(color: palette.textSecondary),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -83,7 +89,7 @@ class ProductOverlayCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Icon(Icons.chevron_right, color: AppColors.textSecondary, size: 20),
+                  Icon(Icons.chevron_right, color: palette.textSecondary, size: 20),
                 ],
               ),
             ),
