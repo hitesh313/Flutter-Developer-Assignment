@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # assignment
 
 A new Flutter project.
@@ -15,3 +16,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# Flutter-Developer-Assignment
+single-page UI
+>>>>>>> ef65be88b54400c9f4d463686891cf38fec452bc
