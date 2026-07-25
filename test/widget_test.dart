@@ -1,9 +1,7 @@
-// This is a basic Flutter widget test.
+// Basic smoke test for the Quick Share screen.
 //
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// Verifies the screen renders its core sections and that selecting a
+// contact enables the bottom "Send" button.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,20 +9,24 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:assignment/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Quick Share screen renders and contact selection enables send', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const QuickShareApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Core sections are present.
+    expect(find.text('Share'), findsOneWidget);
+    expect(find.text('Quick share to'), findsOneWidget);
+    expect(find.text('Share via'), findsOneWidget);
+    expect(find.text('Or copy link'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Send button starts disabled with a prompt label.
+    expect(find.text('Select contacts to send'), findsOneWidget);
+
+    // Tapping the first contact avatar selects it and updates the button.
+    await tester.tap(find.text('Aarav'));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('Send to 1 selected'), findsOneWidget);
   });
 }
